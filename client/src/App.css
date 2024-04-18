@@ -95,3 +95,12 @@
 .textshadow0point5{
     text-shadow: 0.5px 0.5px 0.5px black;
 }
+
+.mr218{
+    margin-right: 218px;
+}
+
+.space{
+    background-image: url(C:\xampp\htdocs\FinalProject\client\public\images\Space.jpg); 
+    background-size: 100% 100%;
+}

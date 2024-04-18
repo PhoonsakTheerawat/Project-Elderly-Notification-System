@@ -1,4 +1,4 @@
-import React from 'react'
+import React , { useState }  from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { ErrorMessage, Formik, Form, Field } from "formik";
@@ -8,14 +8,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import * as yup from "yup";
 
 function Signup({ isLoggedIn = false }) {
+    
   const handleRegister = async (values) => {
       try {
           const response = await axios.post('http://localhost:3001/signup', {
+            name: values.name,
+            line_id: values.line_id,
             email: values.email,
-            password: values.password
+            password: values.password  
           });
-    
-          // Check if the response contains the expected message
+
           if (response.data && response.data.msg) {
               toast.info(response.data.msg, {
                   position: "top-right",
@@ -29,7 +31,8 @@ function Signup({ isLoggedIn = false }) {
               });
     
               // You might want to handle navigation or state updates in a more React-friendly way
-              window.location.reload();
+              {/*window.location.reload();*/}
+              navigate('/');
           } else {
               // Handle unexpected response format
               console.error("Unexpected response format:", response);
@@ -51,6 +54,12 @@ function Signup({ isLoggedIn = false }) {
   };
 
   const validationRegister = yup.object().shape({
+    name: yup
+        .string()
+        .required("Name is required"),
+    line_id: yup
+        .string()
+        .required("Line ID is required"),
     email: yup
         .string()
         .email("Email invalid")
@@ -69,57 +78,84 @@ function Signup({ isLoggedIn = false }) {
 
   return (
   <div className='w-screen h-screen bg-sky-400'>
-    <div className='relative max-w-5xl h-full my-0 mx-auto text-center border-4 border-red-500'> 
+    <div className='flex flex-col max-w-5xl h-full my-0 mx-auto items-center border-4 border-red-500'>
 
-      <img src='./images/back.png' alt='back' className='w-16 h-16 absolute top-0 left-0' onClick={() => navigate("/")} />
-      <div className='textshadow tran top10 left-1/2 absolute text-4xl text-white font-black font-sans'>
-        <h1>Sign Up To Your Account</h1>
+      <div className='flex justify-start w-full mt-10'>
+        <img src='./images/back.png' alt='back' className='w-16 h-16 mr-2 md:mr-24 lg:mr-56' onClick={() => navigate("/")} />
+        <div className='self-center textshadow text-4xl text-white font-black font-sans'>
+          <h1>Sign Up To Your Account</h1>
+        </div>
       </div>
+
     <Formik
-      initialValues={{}}
+      initialValues={{ name: '', line_id: '', email: '', password: '', confirmpassword: '' }}
       onSubmit={handleRegister}
       validationSchema={validationRegister}
     >
       <Form>
-        {/*<Field className='shadow-xl tran top23 left-1/2 absolute w-96 h-9 rounded-full' type='text'
-          placeholder="    Line ID" name="line_id" />
+        <div className='mt-32'>
+          <Field className='shadow-xl w-96 h-9 rounded-lg' type='text'
+            placeholder="    Name" name="name" />
+        </div>
+        <ErrorMessage
+          component="span"
+          name="name"
+          className="form-error text-white font-black font-sans text-lg"
+        />
 
-        <Field className='shadow-xl tran top33 left-1/2 absolute w-96 h-9 rounded-full' type='text'
-          placeholder="    Name" name="name" />*/}
-      
-        <Field className='shadow-xl tran top43 left-1/2 absolute w-96 h-9 rounded-full' type='email'
-          placeholder="    Email" name="email" />
+        <div className='mt-8'>
+          <Field className='shadow-xl w-96 h-9 rounded-lg' type='text'
+            placeholder="    Line ID" name="line_id" />
+        </div>
+        <ErrorMessage
+          component="span"
+          name="line_id"
+          className="form-error text-white font-black font-sans text-lg"
+        />
+
+        <div className='mt-8'>
+          <Field className='shadow-xl w-96 h-9 rounded-lg' type='email'
+            placeholder="    Email" name="email" />
+        </div>
         <ErrorMessage
           component="span"
           name="email"
-          className="form-error"
+          className="form-error text-white font-black font-sans text-lg"
         />
 
-        <Field className='shadow-xl tran top53 left-1/2 absolute w-96 h-9 rounded-full' type='password'
-          placeholder="    Password" name="password" />
+        <div className='mt-8'>
+          <Field className='shadow-xl w-96 h-9 rounded-lg' type='password'
+            placeholder="    Password" name="password" />
+        </div>
         <ErrorMessage
           component="span"
           name="password"
-          className="form-error"
+          className="form-error text-white font-black font-sans text-lg"
         />
 
-        <Field className='shadow-xl tran top63 left-1/2 absolute w-96 h-9 rounded-full' type='password'
-          placeholder="    Confirm Password" name="confirmpassword" />
+        <div className='mt-8'>
+          <Field className='shadow-xl w-96 h-9 rounded-lg' type='password'
+            placeholder="    Confirm Password" name="confirmpassword" />
+        </div>
         <ErrorMessage
           component="span"
           name="confirmpassword"
-          className="form-error"
+          className="form-error text-white font-black font-sans text-lg"
         />
 
-        {/*<input className='tran top71 left34 absolute w-6 h-6 rounded-full' type='checkbox'
-          name="check" />
-        <nav>
-          <Link to="/Rules" className='textshadow1 tran top70point8 left45 absolute text-lg text-white font-black font-sans' target="_blank">I agree all statements</Link>
-        </nav>*/}
-      
-        <button
-          className='shadow-xl tran top80 left-1/2 absolute w-48 h-11 bg-white rounded-full text-lg text-sky-400 font-black font-sans'
-          type='submit'>Create Account</button>
+        <div className='flex items-center mt-3'>
+          <Field className='w-6 h-6 rounded-full border-4' type='checkbox'
+            name="pdpa" required/>
+          <nav>
+            <Link to="/Rules" className='p-5 textshadow1 text-lg text-white font-black font-sans' target="_blank">I agree all statements</Link>
+          </nav>
+        </div>
+
+        <div className='flex justify-center mt-4'>
+          <button
+            className='shadow-xl w-48 h-11 bg-white rounded-full text-lg text-sky-400 font-black font-sans'
+            type='submit'>Create Account</button>
+        </div>
       </Form>
     </Formik>
     </div>

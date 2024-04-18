@@ -1,8 +1,8 @@
 import React from 'react'
 import { Navigate } from "react-router-dom";
-import Home from './Home';
+import Sound from './Sound';
 
-function ProtectedRoute({ children }) {
+function ProtectedRoutesound({ children }) {
     const isLoggedIn = localStorage.getItem("user");
 
     return (
@@ -10,10 +10,10 @@ function ProtectedRoute({ children }) {
             {!isLoggedIn && (
                 <Navigate to="/" replace={true} />
             )}
-            <Home />
+            <Sound />
             
         </>
     )
 }
 
-export default ProtectedRoute
+export default ProtectedRoutesound

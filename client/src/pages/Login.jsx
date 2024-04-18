@@ -6,11 +6,10 @@ import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as yup from "yup";
+import { Navigate } from "react-router-dom";
 
 function Login() {
-
-  const isLoggedIn = localStorage.getItem("@user");
-
+  const isLoggedIn = localStorage.getItem("user");
 
   const handleLogin = async (values) => {
     try {
@@ -34,10 +33,10 @@ function Login() {
                 theme: "dark"
             });
 
-            localStorage.setItem('@user', JSON.stringify(response.config.data))
+            localStorage.setItem('user', JSON.stringify(values.email))
             // You might want to handle navigation or state updates in a more React-friendly way
             window.location.reload();
-            
+        
         } else {
             // Handle unexpected response format
             console.error("Unexpected response format:", response);
@@ -72,52 +71,70 @@ const validationLogin = yup.object().shape({
 let navigate = useNavigate()
 
 return (
+<div>
+  {isLoggedIn && (
+      <Navigate to="/home" replace={true} />
+  )}
   <div className='w-screen h-screen bg-sky-400'>
-    <div className='relative max-w-5xl h-full my-0 mx-auto text-center border-4 border-red-500'>
+    <div className='flex flex-col max-w-5xl h-full my-0 mx-auto items-center border-4 border-red-500'>
 
-      <div className='tran top18 left-1/2 absolute h-36 w-36'>
+      <div className='h-auto w-auto mt-28 border-4 border-red-500'>
         <img src="images/logo.png" alt="logo" />
       </div>
 
-      <div className='textshadow tran top35 left-1/2 absolute text-3xl text-white font-black font-sans'>
+      <div className='textshadow text-3xl text-white font-black font-sans h-auto w-auto mt-5 border-4 border-red-500'>
         <h1>
           NEVER FORGET
         </h1>
       </div>
 
       <Formik
-        initialValues={{}}
+        initialValues={{ email: '', password: '' }}
         onSubmit={handleLogin}
         validationSchema={validationLogin}
         >
-        <Form>
-          <Field className='shadow-xl tran top45 left-1/2 absolute w-96 h-9 rounded-full' type='email'
-            placeholder="    Email" name="email" />
+        <Form className='flex flex-col'>
+          <div className='mt-7 border-4 border-red-500'>
+            <Field className='shadow-xl w-96 h-9 rounded-lg' type='email'
+              placeholder="    Email" name="email" />
+          </div>
           <ErrorMessage 
-                  component="span"
-                  name="email"
-                  className="form-error"
+                    component="span"
+                    name="email"
+                    className="form-error text-white font-black font-sans text-lg"
           />
 
-          <Field className='shadow-xl tran top53 left-1/2 absolute w-96 h-9 rounded-full' type='password'
-            placeholder="    Password" name="password" />
+          <div className='mt-7 border-4 border-red-500'>
+            <Field className='shadow-xl w-96 h-9 rounded-lg' type='password'
+              placeholder="    Password" name="password" />
+          </div>
           <ErrorMessage 
-                  component="span"
-                  name="password"
-                  className="form-error"
+                    component="span"
+                    name="password"
+                    className="form-error text-white font-black font-sans text-lg"
           />  
-          <button
-            className='shadow-xl tran top65 left61 absolute w-32 h-9 bg-white rounded-full text-sky-400 font-black font-sans'
-            type='submit'>Login</button>
+
+          <div className='flex justify-evenly mt-7 border-4 border-red-500'>
+            <button onClick={() => navigate("/signup")}
+              className='shadow-xl w-32 h-9 bg-white rounded-full text-sky-400 font-black font-sans'
+              >Sign Up</button>
+              
+            <button
+              className='shadow-xl w-32 h-9 bg-white rounded-full text-sky-400 font-black font-sans'
+              type='submit'>Login</button>
+
+          </div>
+
         </Form>
       </Formik>
       <ToastContainer position='top-right' />
       
-      <button onClick={() => navigate("/signup")}
-            className='shadow-xl tran top65 left40 absolute w-32 h-9 bg-white rounded-full text-sky-400 font-black font-sans'
-      >Sign Up</button>
+      {/*<button onClick={() => navigate("/signup")}
+            className='border-4 border-red-500 shadow-xl w-32 h-9 bg-white rounded-full text-sky-400 font-black font-sans'
+      >Sign Up</button>*/}
     </div>
   </div>
+</div>
 )
 }
 

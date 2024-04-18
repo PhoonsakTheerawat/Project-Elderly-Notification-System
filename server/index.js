@@ -12,7 +12,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "finalproject1",
+    database: "finalproject",
 });
 
 db.connect((err) => {
@@ -27,10 +27,22 @@ app.get('/',(req,res) => {
     res.json({
         msg: 'Hello World from Server'
     })
-})
+});
+
+{/*app.get('/name',(req,res) => {
+  db.query("SELECT name , email FROM users", (err,result) => {
+    if(err){
+      console.log(err);
+    }else{
+      res.send(result);
+    }
+  });
+})*/}
 
 app.post("/signup", async (req, res) => {
   try {
+    const name = req.body.name;
+    const line_id = req.body.line_id;
     const email = req.body.email;
     const password = req.body.password;
 
@@ -39,7 +51,7 @@ app.post("/signup", async (req, res) => {
     if (rows.length === 0) {
       const hash = await bcrypt.hash(password, saltRounds);
 
-      await db.promise().query("INSERT INTO users (email, password) VALUES (?, ?)", [email, hash]);
+      await db.promise().query("INSERT INTO users (name, line_id, email, password) VALUES (?, ?, ?, ?)", [name, line_id, email, hash]);
 
       res.status(201).json({
         msg: "User registered successfully!",
@@ -74,10 +86,10 @@ app.post("/login", (req, res) => {
 
               if (isMatch) {
                   // You might want to generate a token here or send user details
-                  return res.json({
-                      msg: "Login successful!",
-                      // Include any relevant user details or token here
-                  });
+                return res.json({
+                    msg: "Login successful!",
+                    // Include any relevant user details or token here
+                });
               } else {
                   return res.status(401).json({ 
                       msg: "Incorrect email or password"
@@ -90,8 +102,18 @@ app.post("/login", (req, res) => {
   });
 });
 
-
+app.post('/logout', (req, res) => {
+    // Destroy the session to log the user out
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error during logout' });
+      }
+      // Clear localStorage on the client side
+      res.json({ message: 'Logout successful', clearLocalStorage: true });
+    });
+});
 
 app.listen(3001, () => {
     console.log("Hello World from Server");
 });
+
