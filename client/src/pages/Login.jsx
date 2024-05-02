@@ -32,10 +32,11 @@ function Login() {
                 progress: undefined,
                 theme: "dark"
             });
-
+            
             localStorage.setItem('user', JSON.stringify(values.email))
             // You might want to handle navigation or state updates in a more React-friendly way
             window.location.reload();
+            
         
         } else {
             // Handle unexpected response format
@@ -94,6 +95,7 @@ return (
         validationSchema={validationLogin}
         >
         <Form className='flex flex-col'>
+    
           <div className='mt-7 border-4 border-red-500'>
             <Field className='shadow-xl w-96 h-9 rounded-lg' type='email'
               placeholder="    Email" name="email" />

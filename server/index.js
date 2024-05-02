@@ -29,15 +29,15 @@ app.get('/',(req,res) => {
     })
 });
 
-{/*app.get('/name',(req,res) => {
-  db.query("SELECT name , email FROM users", (err,result) => {
+app.get('/home',(req,res) => {
+  db.query("SELECT * FROM times", (err,result) => {
     if(err){
       console.log(err);
     }else{
       res.send(result);
     }
   });
-})*/}
+})
 
 app.post("/signup", async (req, res) => {
   try {
@@ -85,6 +85,22 @@ app.post("/login", (req, res) => {
               }
 
               if (isMatch) {
+
+                {/*app.get('/home', (req, res) => {
+                  
+                  // ปรับแต่งคำสั่ง SQL
+                  const sql = "SELECT * FROM times WHERE email = ?";
+                
+                  // ใส่ตัวแปร email ลงในคำสั่ง SQL
+                  db.query(sql, [email], (err, result) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      res.send(result);
+                    }
+                  });
+                });*/}
+
                   // You might want to generate a token here or send user details
                 return res.json({
                     msg: "Login successful!",
@@ -112,6 +128,27 @@ app.post('/logout', (req, res) => {
       res.json({ message: 'Logout successful', clearLocalStorage: true });
     });
 });
+
+app.post("/time", async (req, res) => {
+  try {
+    const hour = req.body.hour;
+    const minute = req.body.minute;
+    const pill_name = req.body.pill_name;
+    const meal = req.body.meal;
+    const time_clock = req.body.time_clock;
+    const email = req.body.email;
+
+    await db.promise().query("INSERT INTO times (hour, minute, pill_name, meal, time_clock, email) VALUES (?, ?, ?, ?, ?, ?)", [hour, minute, pill_name, meal, time_clock ,email]);
+
+    res.status(201).json({
+      msg: "User registered successfully!",
+    });
+  } catch (error) {
+    console.error("Error during registration:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
+
 
 app.listen(3001, () => {
     console.log("Hello World from Server");

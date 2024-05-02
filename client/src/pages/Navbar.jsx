@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+
 function Navbar() {
   const [user, setUser] = useState(null);
-  
+
   // Fetch user data immediately on component mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
