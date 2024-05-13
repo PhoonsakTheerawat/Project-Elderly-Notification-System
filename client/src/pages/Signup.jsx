@@ -77,7 +77,7 @@ function Signup({ isLoggedIn = false }) {
   let navigate = useNavigate()
 
   return (
-  <div className='w-screen h-screen bg-sky-400'>
+  <div className='w-screen h-screen ' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
     <div className='flex flex-col max-w-5xl h-full my-0 mx-auto items-center border-4 border-red-500'>
 
       <div className='flex justify-start w-full mt-10'>

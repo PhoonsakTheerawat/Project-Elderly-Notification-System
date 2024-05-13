@@ -132,13 +132,12 @@ app.post('/logout', (req, res) => {
 app.post("/time", async (req, res) => {
   try {
     const hour = req.body.hour;
-    const minute = req.body.minute;
     const pill_name = req.body.pill_name;
     const meal = req.body.meal;
     const time_clock = req.body.time_clock;
     const email = req.body.email;
 
-    await db.promise().query("INSERT INTO times (hour, minute, pill_name, meal, time_clock, email) VALUES (?, ?, ?, ?, ?, ?)", [hour, minute, pill_name, meal, time_clock ,email]);
+    await db.promise().query("INSERT INTO times (hour, pill_name, meal, time_clock, email) VALUES (?, ?, ?, ?, ?)", [hour, pill_name, meal, time_clock ,email]);
 
     res.status(201).json({
       msg: "User registered successfully!",

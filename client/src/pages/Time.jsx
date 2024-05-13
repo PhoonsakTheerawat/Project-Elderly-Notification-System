@@ -36,7 +36,6 @@ function Time() {
 
         const response = await axios.post('http://localhost:3001/time', {       
           hour: values.hour,
-          minute: values.minute,
           pill_name: values.pill_name,
           meal: values.meal,  
           time_clock: values.time_clock,
@@ -82,9 +81,7 @@ const validationTime = yup.object().shape({
   hour: yup
       .string()
       .required("Hour is required"),
-  minute: yup
-      .string()
-      .required("Minute is required"),
+  
   pill_name: yup
       .string()
       .required("Pill Name is required"),
@@ -101,51 +98,38 @@ let navigate = useNavigate()
 
   return (
     <div className='w-screen h-screen'>
-      <div className='flex flex-col max-w-5xl h-full my-0 mx-auto items-center bg-white rounded-t-3xl'>
+      <div className='flex flex-col max-w-full h-full my-0 mx-auto items-center bg-white rounded-t-3xl' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
         <Navbar />
-        <h1 className='border-4 border-red-400 mt-24 font-black font-sans text-5xl'>{time.toLocaleTimeString('en-US', { hour12: false })}</h1>
-        <p className='border-4 border-red-400 mt-2 font-sans text-2xl'>{dateString}</p>
-
-
-
-
-
+        <h1 className='mt-24 text-white font-black font-sans text-5xl'>{time.toLocaleTimeString('en-US', { hour12: false })}</h1>
+        <p className='mt-2 text-white font-sans text-2xl'>{dateString}</p>
 
         <Formik
-          initialValues={{ hour: '', minute: '', pill_name: '', meal: '', time_clock: '' }}
+          initialValues={{ hour: '', pill_name: '', meal: '', time_clock: '' }}
           onSubmit={handleTime}
           validationSchema={validationTime}
         >
           <Form>
-            <div className='flex justify-center mt-10 border-4 border-red-400 '>
-              <Field className='rounded-2xl w-20 h-16 font-black font-sans text-3xl border-2 border-black p-2'
-                  type="number"
+          <div className="box-border h-2/4 w-96 max-w-screen-90 max-h-screen-90 border-blue-500 bg-stone-100 rounded-lg flex flex-col justify-start items-center mt-10">
+            <div className='flex justify-center mt-10'>
+              <Field className='rounded-2xl w-auto h-16 font-black font-sans text-3xl border-2 border-black p-2'
+                  type="time"
                   id="hour"
                   name="hour"
                   placeholder="00"
                   min="0"
                   max="23"
               />
-              <Field className='rounded-2xl w-20 h-16 font-black font-sans text-3xl border-2 border-black p-2 ml-2'
-                  type="number"
-                  id="minute"
-                  name="minute"
-                  placeholder="00"
-                  min="0"
-                  max="59"            
-              />
             </div>
-            <div className="flex mt-8 h-screen">
-              <div className="box-border h-96 w-96 max-w-screen-90 max-h-screen-90 border-blue-500 bg-blue-500 rounded-lg flex flex-col justify-start items-center">
+            <div className="flex flex-col mt-8 h-screen">
                 <Field
-                  className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white bg-opacity-90 text-black'
+                  className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white text-black font-black font-sans'
                   type='text'
                   name="pill_name"
                   placeholder='กรอกชื่อยา'
                 />
         
                 <Field
-                  className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white bg-opacity-90 text-black'
+                  className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white text-black font-black font-sans'
                   as='select'
                   name="meal"
                 >
@@ -157,7 +141,7 @@ let navigate = useNavigate()
 
 
                 <Field
-                  className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white bg-opacity-90 text-black'
+                  className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white text-black font-black font-sans'
                   as='select'
                   name="time_clock"
                 >
@@ -166,21 +150,15 @@ let navigate = useNavigate()
                   <option value='noon'>Noon</option>
                   <option value='evening'>Evening</option>
                 </Field>
-                 
-          
-                <button type='submit' className='shadow-xl w-40 h-11 bg-white rounded-full text-lg text-sky-400 font-black font-sans mt-28'>
-                  Submit
-                </button>
-              </div>
+                <div className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white text-lg text-black font-black font-sans'>
+                  <button type='submit' >
+                    Submit
+                  </button>
+                </div>
             </div>
+          </div>
           </Form>
         </Formik>
-
-
-
-
-
-
         <Navbartime />
       </div>
     </div>

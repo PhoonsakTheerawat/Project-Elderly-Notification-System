@@ -14,12 +14,13 @@ function Camera() {
 
   return (
     <div className='w-screen h-screen'>
-      <div className='flex flex-col max-w-5xl h-full my-0 mx-auto items-center bg-white rounded-t-3xl'>
+      <div className='flex flex-col max-w-full h-full my-0 mx-auto items-center bg-white rounded-t-3xl' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
         <Navbar />
-        <Webcam ref={webcamRef} />
+        <div className='flex w-auto h-auto mt-48 border-4 border-white rounded-lg '>
+          <Webcam ref={webcamRef} />
+        </div>
         <Navbarcamera />
-        <button onClick={capture}>ถ่ายภาพ</button>
-        {image && <img src={image} alt="ภาพจากกล้อง webcam" />}
+        
       </div>
     </div>
   );
