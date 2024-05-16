@@ -98,7 +98,7 @@ let navigate = useNavigate()
 
   return (
     <div className='w-screen h-screen'>
-      <div className='flex flex-col max-w-full h-full my-0 mx-auto items-center bg-white rounded-t-3xl' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
+      <div className='flex flex-col max-w-auto h-full my-0 mx-auto items-center bg-white rounded-t-3xl' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
         <Navbar />
         <h1 className='mt-24 text-white font-black font-sans text-5xl'>{time.toLocaleTimeString('en-US', { hour12: false })}</h1>
         <p className='mt-2 text-white font-sans text-2xl'>{dateString}</p>
@@ -109,7 +109,7 @@ let navigate = useNavigate()
           validationSchema={validationTime}
         >
           <Form>
-          <div className="box-border h-2/4 w-96 max-w-screen-90 max-h-screen-90 border-blue-500 bg-stone-100 rounded-lg flex flex-col justify-start items-center mt-10">
+          <div className="box-border h-2/4 w-96 w-auto h-auto border-blue-500 bg-stone-100 rounded-lg flex flex-col justify-start items-center mt-10 p-8">
             <div className='flex justify-center mt-10'>
               <Field className='rounded-2xl w-auto h-16 font-black font-sans text-3xl border-2 border-black p-2'
                   type="time"
@@ -120,7 +120,7 @@ let navigate = useNavigate()
                   max="23"
               />
             </div>
-            <div className="flex flex-col mt-8 h-screen">
+            <div className="flex flex-col mt-8 h-auto">
                 <Field
                   className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white text-black font-black font-sans'
                   type='text'

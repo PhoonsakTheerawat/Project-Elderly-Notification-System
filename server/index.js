@@ -5,6 +5,36 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+
+
+
+
+
+
+
+const axios = require("axios");
+async function notifyLine(token, message) {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: "https://notify-api.line.me/api/notify",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization : "Bearer " + token,
+      },
+      data: "message=" +message,
+    });
+    console.log("notify response ",response);
+  } catch (err){
+    console.log(err);
+  }
+}
+
+
+
+
+
+
 app.use(express.json());
 app.use(cors());
 
@@ -147,6 +177,31 @@ app.post("/time", async (req, res) => {
     res.status(500).json({ msg: "Internal Server Error" });
   }
 });
+
+
+
+
+
+app.post('/sound', async (req, res) => {
+  const pill_name = req.body.pill_name;
+  const meal = req.body.meal;
+  const email = req.body.email;
+
+  db.query("SELECT line_id FROM users WHERE email = ?", [email], (err, result) => {
+    const a = result;
+    const lineToken = a[0].line_id;
+    const text = 'ถึงเวลาทานยา '+pill_name+' แล้วครับ กิน '+meal+' นะครับ';
+    console.log(meal)
+    notifyLine(lineToken,text)
+  });
+});
+
+
+
+
+
+
+
 
 
 app.listen(3001, () => {

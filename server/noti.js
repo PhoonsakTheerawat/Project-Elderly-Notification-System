@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-export default async (token, message) => {
+exports.notifyLine = async (token, message) => {
   try {
     const response = await axios({
       method: "POST",
@@ -9,7 +9,7 @@ export default async (token, message) => {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization : "Bearer " + token,
       },
-      data: `message=${message}`,
+      data: "message=" +message,
     });
     console.log("notify response ",response);
   } catch (err){

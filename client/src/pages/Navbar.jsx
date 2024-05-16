@@ -19,8 +19,8 @@ function Navbar() {
   };
 
   return (
-    <div className='fixed top-0 w-full'>
-      <div className='flex justify-between w-full h-auto bg-sky-400 rounded-t-3xl'>
+    <div className='fixed top-0 w-screen'>
+      <div className='flex justify-between w-full h-auto bg-sky-400'>
         <img onClick={handleLogout} className='w-20 h-20 self-center' src="images/exit.png" alt="exit" />
         {user ? ( // Display email if user is available
           <p className='self-center  mr-10 text-white font-black font-sans text-xl'>Email : {user}</p>

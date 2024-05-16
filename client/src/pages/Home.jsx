@@ -44,6 +44,23 @@ function Home() {
           toast.info(`ถึงเวลาทานยา`+employee.pill_name+`แล้วครับ`);
 
 
+          (async () => {
+            try {
+              const response = await axios.post('http://localhost:3001/sound', {
+                pill_name: employee.pill_name,
+                meal: employee.meal,
+                email: employee.email
+              });
+              console.log('Backend response:', response.data); // Handle successful response (optional)
+            } catch (error) {
+              console.error('Error sending data to backend:', error); // Handle errors
+            }
+          })();
+
+
+
+
+
         }
       });
     }, 15000);
@@ -52,27 +69,29 @@ function Home() {
   }, [filteredList]);
 
   return (
-    <div className="w-screen h-screen">
-      {/* Render ToastContainer outside of any conditional block for consistent display */}
-      <ToastContainer />
-      <div className="flex flex-col max-w-full h-full my-0 mx-auto items-center bg-white rounded-t-3xl" style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
-        <Navbar />
-        <div className='mt-16'></div>
-        {/* แสดงเฉพาะข้อมูลที่กรอง */}
-        {filteredList.map((val, key) => (
-          <div key={key}>
-            <div className="bg-white rounded-lg shadow-md mt-12">
-              <div className="p-4">
-                <h5 className="font-bold text-xl mb-2">{val.hour} ชื่อยา: {val.pill_name}</h5>
-                <p className="flex justify-center font-semibold text-gray-700 self-center text-lg">{val.meal}</p>
-                <p className="flex justify-center font-semibold text-gray-700 text-lg">{val.time_clock}</p>
+    <div className='w-screen h-screen bg-blue-500'>
+        {/* Render ToastContainer outside of any conditional block for consistent display */}
+        <ToastContainer />
+          <div className='flex flex-col my-0 mx-auto items-center rounded-t-3xl bg-blue-500'>
+            <Navbar />
+            <div className='mt-24'></div>
+            {/* แสดงเฉพาะข้อมูลที่กรอง */}
+            {filteredList.map((val, key) => (
+              <div key={key}>
+                <div className="bg-white rounded-lg shadow-md mt-3">
+                  <div className="p-4">
+                    <h5 className="font-bold text-xl mb-2">{val.hour} ชื่อยา: {val.pill_name}</h5>
+                    <p className="flex justify-center font-semibold text-gray-700 self-center text-lg">{val.meal}</p>
+                    <p className="flex justify-center font-semibold text-gray-700 text-lg">{val.time_clock}</p>
+                  </div>
+                </div>
+                <div className='mt-20'>
+                </div>
               </div>
-            </div>
+            ))}
+            <Navbarhome />
           </div>
-        ))}
-        <Navbarhome />
-      </div>
-    </div>
+  </div>
   );
 }
 
