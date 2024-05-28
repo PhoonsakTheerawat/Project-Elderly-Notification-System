@@ -191,15 +191,36 @@ app.post('/sound', async (req, res) => {
     const a = result;
     const lineToken = a[0].line_id;
     const text = 'ถึงเวลาทานยา '+pill_name+' แล้วครับ กิน '+meal+' นะครับ';
-    console.log(meal)
     notifyLine(lineToken,text)
   });
 });
 
 
 
+app.post('/linenoti', async (req, res) => {
+  const text = req.body.text;
+  const email = req.body.email;
 
+  db.query("SELECT line_id FROM users WHERE email = ?", [email], (err, result) => {
+    const a = result;
+    const lineToken = a[0].line_id;
+    const finishnoti = text;
+    notifyLine(lineToken,finishnoti)
+  
+  });
+});
 
+app.delete('/delete/:time_id', (req, res) => {
+  const time_id = req.params.time_id;
+  db.query("DELETE FROM times WHERE time_id = ?", [time_id], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Error deleting record");
+    } else {
+      res.send(result);
+    }
+  });
+});
 
 
 

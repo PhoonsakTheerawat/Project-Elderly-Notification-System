@@ -11,6 +11,10 @@ function Home() {
   const [employeeList, setEmployeeList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
+  const [currentPillName, setCurrentPillName] = useState('');
+  const [currentMeal, setCurrentMeal] = useState('');
+  const [currentHour, setCurrentHour] = useState('');
+
 
   useEffect(() => {
     Axios.get('http://localhost:3001/home')
@@ -42,8 +46,9 @@ function Home() {
           setShowNotification(true);
           // Add this line to show notification only for the matching employee**
           toast.info(`ถึงเวลาทานยา`+employee.pill_name+`แล้วครับ`);
-
-
+          setCurrentPillName(employee.pill_name);
+          setCurrentMeal(employee.meal);
+          setCurrentHour(employee.hour);
           (async () => {
             try {
               const response = await axios.post('http://localhost:3001/sound', {
@@ -57,16 +62,44 @@ function Home() {
             }
           })();
 
-
-
-
+          setTimeout(() => {
+            setShowNotification(false);
+            window.location.reload();
+          }, 5500);
 
         }
       });
-    }, 15000);
+    }, 20000);
 
     return () => clearInterval(intervalId);
   }, [filteredList]);
+
+
+  
+  const handleCloseNotification = async () => {
+      const SUser = localStorage.getItem("user");
+      const PUser = JSON.parse(SUser);
+      await axios.post('http://localhost:3001/linenoti', {
+        text: "กินยาเรียบร้อยแล้ว!!!!!!!!",
+        email: PUser
+      });
+  };
+
+
+  const deletefunction = (time_id) => {
+    axios.delete(`http://localhost:3001/delete/${time_id}`).then((response) => {
+      // อัปเดต employeeList โดยตัดข้อมูลที่มี time_id ตรงกับพารามิเตอร์ออก
+      setEmployeeList(prevList => prevList.filter((val) => val.time_id !== time_id));
+    }).catch((error) => {
+      console.error('Error deleting data:', error);
+      toast.error('Error deleting data. Please try again later.');
+    });
+    window.location.reload();
+  };
+  
+  
+  
+
 
   return (
     <div className='w-screen h-screen bg-blue-500'>
@@ -76,22 +109,45 @@ function Home() {
             <Navbar />
             <div className='mt-24'></div>
             {/* แสดงเฉพาะข้อมูลที่กรอง */}
-            {filteredList.map((val, key) => (
+            {filteredList
+            .sort((a, b) => {
+              // แปลงเวลาในรูป HH:mm เป็นชั่วโมงเพื่อเปรียบเทียบ
+              const [hourA, minuteA] = a.hour.split(':').map(Number);
+              const [hourB, minuteB] = b.hour.split(':').map(Number);
+
+              // เรียงข้อมูลจากเวลาน้อยไปมาก
+              if (hourA !== hourB) {
+                return hourA - hourB;
+              } else {
+                return minuteA - minuteB;
+              }
+            })
+            .map((val, key) => (
               <div key={key}>
                 <div className="bg-white rounded-lg shadow-md mt-3">
-                  <div className="p-4">
+                  <div className="flex flex-col justify-center p-4">
                     <h5 className="font-bold text-xl mb-2">{val.hour} ชื่อยา: {val.pill_name}</h5>
-                    <p className="flex justify-center font-semibold text-gray-700 self-center text-lg">{val.meal}</p>
-                    <p className="flex justify-center font-semibold text-gray-700 text-lg">{val.time_clock}</p>
+                    <p className="font-semibold text-gray-700 self-center text-lg">{val.meal}</p>
+                    <p className="font-semibold text-gray-700 self-center text-lg">{val.time_clock}</p>
+                    <button className='flex items-center text-gray-70 text-white font-semibold rounded-xl mt-2 px-4 py-1 self-center bg-red-500' onClick={() => {deletefunction(val.time_id)}} >Delete</button>
                   </div>
                 </div>
-                <div className='mt-20'>
-                </div>
+                <div className='mt-20'></div>
               </div>
             ))}
             <Navbarhome />
           </div>
-  </div>
+
+      {showNotification && (
+        <div className='fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center'>
+          <div className='flex flex-col bg-white p-8 rounded justify-center items-center'> 
+            <p className='text-black font-black font-sans text-xl'>ถึงเวลาทานยา {currentPillName} แล้วครับ กิน {currentMeal} นะครับ เวลา {currentHour}</p>
+            <button className='bg-green-500 px-4 mt-3 rounded text-white font-black font-sans text-xl' onClick={handleCloseNotification}>กินแล้ว</button>
+          </div>
+        </div>
+      )}
+
+    </div>
   );
 }
 
