@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'; // นำเข้า hooks และ React
 import Navbar from './Navbar'; // นำเข้า Navbar จากไฟล์อื่น
 import Navbarsound from './Navbarsound'; // นำเข้า Navbarsound จากไฟล์อื่น
+
+
+
+
 //ปุ่มการคลิ็กและเริ่มอัดเสียง
 
 
@@ -39,6 +43,7 @@ const RecordingButton = ({ handleRecordingToggle, fileName }) => { // องค�
     if (mediaRecorder && isRecording) {
       mediaRecorder.stop(); // หยุดการบันทึกเสียง
       setIsRecording(false); // ตั้งค่า state ให้ไม่กำลังบันทึกเสียง
+      window.location.reload();
     }
   };
 
@@ -119,7 +124,7 @@ const VoiceRecorder = ({ recordedChunks, fileName }) => {
       link.href = url;
       link.download = `${fileName || 'recording'}.mp3`;
       document.body.appendChild(link);
-      //link.click(); // คลิกลิงก์เพื่อดาวน์โหลดไฟล์
+      link.click(); // คลิกลิงก์เพื่อดาวน์โหลดไฟล์
       document.body.removeChild(link); // ลบลิงก์หลังจากคลิกแล้ว
     }
   }, [recordedChunks, fileName]);
@@ -192,6 +197,18 @@ const FileSound = ({ setFileName }) => { // องค์ประกอบสำ
   );
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
 const Sound = () => {
   const [recordedChunks, setRecordedChunks] = useState([]); // state สำหรับเก็บข้อมูลเสียงที่บันทึกไว้
   const [fileName, setFileName] = useState(''); // state สำหรับเก็บชื่อไฟล์
@@ -200,7 +217,6 @@ const Sound = () => {
     setRecordedChunks(chunks); // เก็บข้อมูลเสียงที่บันทึกไว้ใน state
     setFileName(fileName); // เก็บชื่อไฟล์ไว้ใน state
   };
-
 
   return (
     <div className='w-screen h-screen' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>

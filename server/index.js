@@ -4,15 +4,11 @@ const mysql = require("mysql2");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
-
-
-
-
-
-
-
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const axios = require("axios");
+
 async function notifyLine(token, message) {
   try {
     const response = await axios({
@@ -221,6 +217,57 @@ app.delete('/delete/:time_id', (req, res) => {
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadPath = path.join(__dirname, 'uploads');
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath);
+    }
+    cb(null, uploadPath);
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+app.post("/upload", upload.single('file'), async (req, res) => {
+  try {
+    const email = req.body.email;
+    const filePath = req.file.path;
+
+    await db.promise().query("INSERT INTO recordmp3 (email, mp3_file) VALUES (?, ?)", [email, filePath]);
+
+    res.status(201).json({
+      msg: "File uploaded successfully!",
+    });
+  } catch (error) {
+    console.error("Error during file upload:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
+
+
+app.get('/mp3',(req,res) => {
+  db.query("SELECT mp3_file FROM recordmp3", (err,result) => {
+    if(err){
+      console.log(err);
+    }else{
+      res.send(result);
+    }
+  });
+})
 
 
 

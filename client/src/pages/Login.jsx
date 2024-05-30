@@ -45,7 +45,7 @@ function Login() {
     } catch (error) {
         // Handle network errors or other issues
         console.error("Error during login:", error);
-        toast.error("Error during login", {
+        toast.error("เข้าสู่ระบบล้มเหลว", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -61,12 +61,12 @@ function Login() {
 const validationLogin = yup.object().shape({
     email: yup
         .string()
-        .email("Email invalid")
-        .required("Email is required"),
+        .email("รูปแบบ Email ไม่ถูกต้อง")
+        .required("โปรดกรอก Email ของคุณ"),
     password: yup
         .string()
-        .min(6, "Password must be at least 6 characters long")
-        .required("Password is required"),
+        .min(6, "รหัสต้องมีความยาว 6 ตัวอักสรขึ้นไป")
+        .required("โปรดกรอก Password ของคุณ"),
 })
 
 let navigate = useNavigate()

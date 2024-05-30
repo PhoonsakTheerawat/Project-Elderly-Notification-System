@@ -40,7 +40,7 @@ function Signup({ isLoggedIn = false }) {
       } catch (error) {
           // Handle network errors or other issues
           console.error("Error during registration:", error);
-          toast.error("Error during registration", {
+          toast.error("สมัคสมาชิกล้มเหลว", {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -56,22 +56,22 @@ function Signup({ isLoggedIn = false }) {
   const validationRegister = yup.object().shape({
     name: yup
         .string()
-        .required("Name is required"),
+        .required("โปรดกรอกชื่อของคุณ"),
     line_id: yup
         .string()
-        .required("Line ID is required"),
+        .required("โปรดกรอก linetoken ของคุณ"),
     email: yup
         .string()
-        .email("Email invalid")
-        .required("Email is required"),
+        .email("รูปแบบ Email ไม่ถูกต้อง")
+        .required("โปรดกรอก Email ของคุณ"),
     password: yup
         .string()
-        .min(6, "Password must be at least 6 characters long")
-        .required("Password is required"),
+        .min(6, "รหัสต้องมีความยาว 6 ตัวอักสรขึ้นไป")
+        .required("โปรดกรอก Password ของคุณ"),
     confirmpassword: yup
         .string()
-        .oneOf([yup.ref("password"), null], "The passwords are different")
-        .required("Password confirmation is mandatory")
+        .oneOf([yup.ref("password"), null], "Password ไม่ตรงกันโปรดตรวจสอบ!!!")
+        .required("โปรดกรอก Confirm Password ของคุณ")
   })
 
   let navigate = useNavigate()
@@ -105,7 +105,7 @@ function Signup({ isLoggedIn = false }) {
 
         <div className='mt-8'>
           <Field className='shadow-xl w-96 h-9 rounded-lg' type='text'
-            placeholder="    Line ID" name="line_id" />
+            placeholder="    Line Token" name="line_id" />
         </div>
         <ErrorMessage
           component="span"

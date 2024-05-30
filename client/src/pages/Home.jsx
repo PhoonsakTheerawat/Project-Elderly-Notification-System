@@ -5,7 +5,7 @@ import Axios from 'axios';
 // Import Toast components
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
-
+import { Howl, Howler } from 'howler';
 
 function Home() {
   const [employeeList, setEmployeeList] = useState([]);
@@ -14,7 +14,6 @@ function Home() {
   const [currentPillName, setCurrentPillName] = useState('');
   const [currentMeal, setCurrentMeal] = useState('');
   const [currentHour, setCurrentHour] = useState('');
-
 
   useEffect(() => {
     Axios.get('http://localhost:3001/home')
@@ -49,6 +48,35 @@ function Home() {
           setCurrentPillName(employee.pill_name);
           setCurrentMeal(employee.meal);
           setCurrentHour(employee.hour);
+          console.log(employee.time_clock);
+
+
+
+          if(employee.time_clock == "เช้า"){
+            const soundmorning = new Howl({
+              src: ['sounds/1234.mp3']
+            });
+            soundmorning.play();
+          }else if(employee.time_clock == "กลางวัน"){
+            const soundnoon = new Howl({
+              src: ['sounds/5678.mp3']
+            });
+            soundnoon.play();
+          }else if(employee.time_clock == "เย็น"){
+            const soundnoon = new Howl({
+              src: ['sounds/5678.mp3']
+            });
+            soundnoon.play();
+          }else {
+            console.log(err);
+          }
+
+
+
+
+
+
+          
           (async () => {
             try {
               const response = await axios.post('http://localhost:3001/sound', {

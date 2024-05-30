@@ -133,9 +133,9 @@ let navigate = useNavigate()
                   as='select'
                   name="meal"
                 >
-                  <option value=''>Pill before meals or after meals</option>
-                  <option value='before'>Before meals</option>
-                  <option value='after'>After meals</option>
+                  <option value=''>กินยาก่อนอาหาร หรือ หลังอาหาร</option>
+                  <option value='ก่อนอาหาร'>ก่อนอาหาร</option>
+                  <option value='หลังอาหาร'>หลังอาหาร</option>
     
                 </Field>
 
@@ -145,10 +145,10 @@ let navigate = useNavigate()
                   as='select'
                   name="time_clock"
                 >
-                  <option value=''>Time to take pill</option>
-                  <option value='morning'>Morning</option>
-                  <option value='noon'>Noon</option>
-                  <option value='evening'>Evening</option>
+                  <option value=''>เวลาในการกินยา</option>
+                  <option value='เช้า'>เช้า</option>
+                  <option value='กลางวัน'>กลางวัน</option>
+                  <option value='เย็น'>เย็น</option>
                 </Field>
                 <div className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white text-lg text-black font-black font-sans'>
                   <button type='submit' >
