@@ -3,7 +3,7 @@ import React from 'react'
 function Rules() {
   return (
   <div className='w-screen h-screen ' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
-    <div className='relative max-w-5xl h-full my-0 mx-auto text-center border-4 border-red-500'>
+    <div className='relative max-w-5xl h-full my-0 mx-auto text-center'>
       <div className='tran top45 left-1/2 relative h-4/5 w-4/5 text-center rounded-lg bg-white shadow-xl'>
         <h1 className='flex flex-col pt-14 text-2xl font-black font-sans'>ข้อตกลงและเงื่อนไข</h1>
         

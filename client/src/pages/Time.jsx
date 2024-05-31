@@ -109,7 +109,7 @@ let navigate = useNavigate()
           validationSchema={validationTime}
         >
           <Form>
-          <div className="box-border h-2/4 w-96 w-auto h-auto border-blue-500 bg-stone-100 rounded-lg flex flex-col justify-start items-center mt-10 p-8">
+          <div className="box-border h-2/4 w-96 w-auto h-auto border-blue-500 rounded-lg flex flex-col justify-start items-center mt-10 p-8">
             <div className='flex justify-center mt-10'>
               <Field className='rounded-2xl w-auto h-16 font-black font-sans text-3xl border-2 border-black p-2'
                   type="time"

@@ -37,20 +37,38 @@ function Home() {
       const currentMinute = currentTime.getMinutes();
 
       filteredList.forEach((employee) => {
+        
+
+
+
+
+        
+
+
+
         const pillTime = employee.hour;
         const pillHour = parseInt(pillTime.split(':')[0]);
         const pillMinute = parseInt(pillTime.split(':')[1]);
 
         if (currentHour === pillHour && currentMinute === pillMinute) {
+          if(employee.state_noti == "ปิด"){
+            console.log("non")
+          }else{
+
+
+
+
+
+
+
+
           setShowNotification(true);
           // Add this line to show notification only for the matching employee**
           toast.info(`ถึงเวลาทานยา`+employee.pill_name+`แล้วครับ`);
           setCurrentPillName(employee.pill_name);
           setCurrentMeal(employee.meal);
           setCurrentHour(employee.hour);
-          console.log(employee.time_clock);
-
-
+          
 
           if(employee.time_clock == "เช้า"){
             const soundmorning = new Howl({
@@ -71,12 +89,6 @@ function Home() {
             console.log(err);
           }
 
-
-
-
-
-
-          
           (async () => {
             try {
               const response = await axios.post('http://localhost:3001/sound', {
@@ -94,16 +106,18 @@ function Home() {
             setShowNotification(false);
             window.location.reload();
           }, 5500);
+        }}
 
-        }
+
+
+
+
+
       });
     }, 20000);
-
     return () => clearInterval(intervalId);
   }, [filteredList]);
 
-
-  
   const handleCloseNotification = async () => {
       const SUser = localStorage.getItem("user");
       const PUser = JSON.parse(SUser);
@@ -112,7 +126,6 @@ function Home() {
         email: PUser
       });
   };
-
 
   const deletefunction = (time_id) => {
     axios.delete(`http://localhost:3001/delete/${time_id}`).then((response) => {
@@ -125,9 +138,45 @@ function Home() {
     window.location.reload();
   };
   
-  
-  
+  const updatefunctionOFF = (time_id) => {
+    axios.put("http://localhost:3001/updateoff",{state_noti: "ปิด", time_id: time_id}).then((response) => {
+      // อัปเดต employeeList โดยตัดข้อมูลที่มี time_id ตรงกับพารามิเตอร์ออก
+      setEmployeeList(
+        employeeList.map((val) => {
+          return val.time_id == time_id ? {
+            time_id: val.time_id,
+            hour: val.hour,
+            pill_name: val.pill_name,
+            meal: val.meal,
+            time_clock: val.time_clock,
+            email: val.email,
+            state_noti: "ปิด"
+          } : val;
+        })
+      )
+    })
+    window.location.reload();
+  };
 
+  const updatefunctionOn = (time_id) => {
+    axios.put("http://localhost:3001/updateon",{state_noti: "เปิด", time_id: time_id}).then((response) => {
+      // อัปเดต employeeList โดยตัดข้อมูลที่มี time_id ตรงกับพารามิเตอร์ออก
+      setEmployeeList(
+        employeeList.map((val) => {
+          return val.time_id == time_id ? {
+            time_id: val.time_id,
+            hour: val.hour,
+            pill_name: val.pill_name,
+            meal: val.meal,
+            time_clock: val.time_clock,
+            email: val.email,
+            state_noti: "เปิด"
+          } : val;
+        })
+      )
+    })
+    window.location.reload();
+  };
 
   return (
     <div className='w-screen h-screen bg-blue-500'>
@@ -153,10 +202,18 @@ function Home() {
             .map((val, key) => (
               <div key={key}>
                 <div className="bg-white rounded-lg shadow-md mt-3">
-                  <div className="flex flex-col justify-center p-4">
-                    <h5 className="font-bold text-xl mb-2">{val.hour} ชื่อยา: {val.pill_name}</h5>
-                    <p className="font-semibold text-gray-700 self-center text-lg">{val.meal}</p>
-                    <p className="font-semibold text-gray-700 self-center text-lg">{val.time_clock}</p>
+                  <div className="flex flex-col justify-center px-6 py-4">
+                    <div className='flex' >
+                      <button className='flex items-center text-gray-70 text-white text-sm font-semibold rounded-xl mt-2 px-4 py-1 self-center bg-green-700' onClick={() => {updatefunctionOn(val.time_id)}}>Turn on</button>
+                      <button className='flex items-center text-gray-70 text-white text-sm font-semibold rounded-xl mt-2 ml-2 px-4 py-1 self-center bg-red-500' onClick={() => {updatefunctionOFF(val.time_id)}}>Turn off</button>
+                      <p className="font-semibold text-gray-700 mt-2 ml-2 text-md">การแจ้งเตือน{val.state_noti}อยู่</p>
+                    </div>
+
+
+                    <h5 className="font-bold text-xl mb-2 self-center mt-2">เวลาที่กินยา {val.hour}</h5>
+                    <h5 className="font-bold text-xl mb-2 self-center">ชื่อยา: {val.pill_name}</h5>
+                    <p className="font-semibold text-gray-700 self-center text-lg">กิน{val.meal}</p>
+                    <p className="font-semibold text-gray-700 self-center text-lg">กินตอน{val.time_clock}</p>
                     <button className='flex items-center text-gray-70 text-white font-semibold rounded-xl mt-2 px-4 py-1 self-center bg-red-500' onClick={() => {deletefunction(val.time_id)}} >Delete</button>
                   </div>
                 </div>
@@ -178,5 +235,4 @@ function Home() {
     </div>
   );
 }
-
 export default Home;

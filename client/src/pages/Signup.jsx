@@ -78,7 +78,7 @@ function Signup({ isLoggedIn = false }) {
 
   return (
   <div className='w-screen h-screen ' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
-    <div className='flex flex-col max-w-5xl h-full my-0 mx-auto items-center border-4 border-red-500'>
+    <div className='flex flex-col max-w-5xl h-full my-0 mx-auto items-center'>
 
       <div className='flex justify-start w-full mt-10'>
         <img src='./images/back.png' alt='back' className='w-16 h-16 mr-2 md:mr-24 lg:mr-56' onClick={() => navigate("/")} />

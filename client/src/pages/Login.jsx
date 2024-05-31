@@ -76,14 +76,14 @@ return (
   {isLoggedIn && (
       <Navigate to="/home" replace={true} />
   )}
-  <div className='w-screen h-screen ' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
-    <div className='flex flex-col max-w-5xl h-full my-0 mx-auto items-center border-4 border-red-500'>
+  <div className='w-screen h-screen' style={{ backgroundImage: 'linear-gradient(to bottom, #003366, #00539e, #0077cc)' }}>
+    <div className='flex flex-col max-w-5xl h-full my-0 mx-auto items-center '>
 
-      <div className='h-auto w-auto mt-28 border-4 border-red-500'>
+      <div className='h-auto w-auto mt-28 '>
         <img src="images/logo.png" alt="logo" />
       </div>
 
-      <div className='textshadow text-3xl text-white font-black font-sans h-auto w-auto mt-5 border-4 border-red-500'>
+      <div className='textshadow text-3xl text-white font-black font-sans h-auto w-auto mt-5 '>
         <h1>
           NEVER FORGET
         </h1>
@@ -96,7 +96,7 @@ return (
         >
         <Form className='flex flex-col'>
     
-          <div className='mt-7 border-4 border-red-500'>
+          <div className='mt-7 '>
             <Field className='shadow-xl w-96 h-9 rounded-lg' type='email'
               placeholder="    Email" name="email" />
           </div>
@@ -106,7 +106,7 @@ return (
                     className="form-error text-white font-black font-sans text-lg"
           />
 
-          <div className='mt-7 border-4 border-red-500'>
+          <div className='mt-7 '>
             <Field className='shadow-xl w-96 h-9 rounded-lg' type='password'
               placeholder="    Password" name="password" />
           </div>
@@ -116,7 +116,7 @@ return (
                     className="form-error text-white font-black font-sans text-lg"
           />  
 
-          <div className='flex justify-evenly mt-7 border-4 border-red-500'>
+          <div className='flex justify-evenly mt-7 '>
             <button onClick={() => navigate("/signup")}
               className='shadow-xl w-32 h-9 bg-white rounded-full text-sky-400 font-black font-sans'
               >Sign Up</button>
@@ -132,7 +132,7 @@ return (
       <ToastContainer position='top-right' />
       
       {/*<button onClick={() => navigate("/signup")}
-            className='border-4 border-red-500 shadow-xl w-32 h-9 bg-white rounded-full text-sky-400 font-black font-sans'
+            className=' shadow-xl w-32 h-9 bg-white rounded-full text-sky-400 font-black font-sans'
       >Sign Up</button>*/}
     </div>
   </div>

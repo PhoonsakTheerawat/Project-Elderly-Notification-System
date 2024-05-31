@@ -183,10 +183,13 @@ app.post('/sound', async (req, res) => {
   const meal = req.body.meal;
   const email = req.body.email;
 
-  db.query("SELECT line_id FROM users WHERE email = ?", [email], (err, result) => {
+  db.query("SELECT line_id, name FROM users WHERE email = ?", [email], (err, result) => {
+    
+    
     const a = result;
     const lineToken = a[0].line_id;
-    const text = 'ถึงเวลาทานยา '+pill_name+' แล้วครับ กิน '+meal+' นะครับ';
+    const name = a[0].name;
+    const text = 'คุณ '+ name +' ถึงเวลาทานยา '+pill_name+' แล้วครับ กิน '+meal+' นะครับ';
     notifyLine(lineToken,text)
   });
 });
@@ -268,6 +271,45 @@ app.get('/mp3',(req,res) => {
     }
   });
 })
+
+
+
+
+
+
+app.put('/updateoff',(req,res) => {
+  const time_id = req.body.time_id;
+  const state_noti = req.body.state_noti;
+  db.query("UPDATE times SET state_noti = ? WHERE time_id = ?", [state_noti, time_id], (err,result) => {
+    if(err){
+      console.log(err);
+    }else{
+      res.send(result);
+    }
+  });
+})
+
+
+
+app.put('/updateon',(req,res) => {
+  const time_id = req.body.time_id;
+  const state_noti = req.body.state_noti;
+  db.query("UPDATE times SET state_noti = ? WHERE time_id = ?", [state_noti, time_id], (err,result) => {
+    if(err){
+      console.log(err);
+    }else{
+      res.send(result);
+    }
+  });
+})
+
+
+
+
+
+
+
+
 
 
 
