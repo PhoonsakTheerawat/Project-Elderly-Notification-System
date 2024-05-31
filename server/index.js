@@ -189,7 +189,7 @@ app.post('/sound', async (req, res) => {
     const a = result;
     const lineToken = a[0].line_id;
     const name = a[0].name;
-    const text = 'คุณ '+ name +' ถึงเวลาทานยา '+pill_name+' แล้วครับ กิน '+meal+' นะครับ';
+    const text = 'คุณ '+ name +' ถึงเวลารับประทานยา '+pill_name+' แล้วครับ กิน '+meal+' นะครับ';
     notifyLine(lineToken,text)
   });
 });
@@ -200,10 +200,11 @@ app.post('/linenoti', async (req, res) => {
   const text = req.body.text;
   const email = req.body.email;
 
-  db.query("SELECT line_id FROM users WHERE email = ?", [email], (err, result) => {
+  db.query("SELECT line_id, name FROM users WHERE email = ?", [email], (err, result) => {
     const a = result;
     const lineToken = a[0].line_id;
-    const finishnoti = text;
+    const name = a[0].name;
+    const finishnoti = "คุณ"+name+text;
     notifyLine(lineToken,finishnoti)
   
   });

@@ -38,14 +38,6 @@ function Home() {
 
       filteredList.forEach((employee) => {
         
-
-
-
-
-        
-
-
-
         const pillTime = employee.hour;
         const pillHour = parseInt(pillTime.split(':')[0]);
         const pillMinute = parseInt(pillTime.split(':')[1]);
@@ -54,13 +46,6 @@ function Home() {
           if(employee.state_noti == "ปิด"){
             console.log("non")
           }else{
-
-
-
-
-
-
-
 
           setShowNotification(true);
           // Add this line to show notification only for the matching employee**
@@ -72,17 +57,17 @@ function Home() {
 
           if(employee.time_clock == "เช้า"){
             const soundmorning = new Howl({
-              src: ['sounds/1234.mp3']
+              src: ['sounds/ตอนเช้า.mp3']
             });
             soundmorning.play();
           }else if(employee.time_clock == "กลางวัน"){
             const soundnoon = new Howl({
-              src: ['sounds/5678.mp3']
+              src: ['sounds/ตอนเที่ยง.mp3']
             });
             soundnoon.play();
           }else if(employee.time_clock == "เย็น"){
             const soundnoon = new Howl({
-              src: ['sounds/5678.mp3']
+              src: ['sounds/ตอนเย็น.mp3']
             });
             soundnoon.play();
           }else {
@@ -105,7 +90,7 @@ function Home() {
           setTimeout(() => {
             setShowNotification(false);
             window.location.reload();
-          }, 5500);
+          }, 7000);
         }}
 
 
