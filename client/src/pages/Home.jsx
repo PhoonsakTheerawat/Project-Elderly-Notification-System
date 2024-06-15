@@ -248,7 +248,7 @@ function Home() {
       {showNotification && (
         <div className='fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center'>
           <div className='flex flex-col bg-white p-8 rounded justify-center items-center'> 
-            <p className='text-black font-black font-sans text-xl'>ถึงเวลาทานยา {currentPillName} แล้วครับ กิน {currentMeal} นะครับ เวลา {currentHour}</p>
+            <p className='text-black font-black font-sans text-xl'>ถึงเวลารัปประทาน {currentPillName} แล้วครับ กิน {currentMeal} นะครับ เวลา {currentHour}</p>
             <button className='bg-green-500 px-4 mt-3 rounded text-white font-black font-sans text-xl' onClick={handleCloseNotification}>กินแล้ว</button>
           </div>
         </div>
