@@ -54,24 +54,44 @@ function Home() {
           setCurrentMeal(employee.meal);
           setCurrentHour(employee.hour);
           
-
-          if(employee.time_clock == "เช้า"){
-            const soundmorning = new Howl({
-              src: ['sounds/ตอนเช้า.mp3']
-            });
-            soundmorning.play();
-          }else if(employee.time_clock == "กลางวัน"){
-            const soundnoon = new Howl({
-              src: ['sounds/ตอนเที่ยง.mp3']
-            });
-            soundnoon.play();
-          }else if(employee.time_clock == "เย็น"){
-            const soundnoon = new Howl({
-              src: ['sounds/ตอนเย็น.mp3']
-            });
-            soundnoon.play();
-          }else {
-            console.log(err);
+          if(employee.meal == "None"){
+            if(employee.time_clock == "เช้า"){
+              const soundmorning = new Howl({
+                src: ['sounds/อาหารตอนเช้า.mp3']
+              });
+              soundmorning.play();
+            }else if(employee.time_clock == "กลางวัน"){
+              const soundnoon = new Howl({
+                src: ['sounds/อาหารตอนเที่ยง.mp3']
+              });
+              soundnoon.play();
+            }else if(employee.time_clock == "เย็น"){
+              const soundnoon = new Howl({
+                src: ['sounds/อาหารตอนเย็น.mp3']
+              });
+              soundnoon.play();
+            }else {
+              console.log(err);
+            }
+          }else{
+            if(employee.time_clock == "เช้า"){
+              const soundmorning = new Howl({
+                src: ['sounds/ยาตอนเช้า.mp3']
+              });
+              soundmorning.play();
+            }else if(employee.time_clock == "กลางวัน"){
+              const soundnoon = new Howl({
+                src: ['sounds/ยาตอนเที่ยง.mp3']
+              });
+              soundnoon.play();
+            }else if(employee.time_clock == "เย็น"){
+              const soundnoon = new Howl({
+                src: ['sounds/ยาตอนเย็น.mp3']
+              });
+              soundnoon.play();
+            }else {
+              console.log(err);
+            }
           }
 
           (async () => {
@@ -87,17 +107,18 @@ function Home() {
             }
           })();
 
-          setTimeout(() => {
-            setShowNotification(false);
-            window.location.reload();
-          }, 7000);
+          if(employee.onetime_noti == "เปิด"){
+            setTimeout(() => {
+              deletefunction(employee.time_id)
+              window.location.reload();
+            }, 15000);
+          }else{
+            setTimeout(() => {
+              setShowNotification(false);
+              window.location.reload();
+            }, 10000);
+          }
         }}
-
-
-
-
-
-
       });
     }, 20000);
     return () => clearInterval(intervalId);
@@ -107,7 +128,7 @@ function Home() {
       const SUser = localStorage.getItem("user");
       const PUser = JSON.parse(SUser);
       await axios.post('http://localhost:3001/linenoti', {
-        text: "กินยาเรียบร้อยแล้ว!!!!!!!!",
+        text: " รับประทานเรียบร้อยแล้วครับ!!!!!!!!",
         email: PUser
       });
   };
@@ -195,9 +216,25 @@ function Home() {
                     </div>
 
 
-                    <h5 className="font-bold text-xl mb-2 self-center mt-2">เวลาที่กินยา {val.hour}</h5>
-                    <h5 className="font-bold text-xl mb-2 self-center">ชื่อยา: {val.pill_name}</h5>
-                    <p className="font-semibold text-gray-700 self-center text-lg">กิน{val.meal}</p>
+                    {val.meal == "None" ? (
+                      <h5 className="font-bold text-xl mb-2 self-center mt-2">เวลาที่กินอาหาร {val.hour}</h5>
+                    ) : (
+                      <h5 className="font-bold text-xl mb-2 self-center mt-2">เวลาที่กินยา {val.hour}</h5>
+                    )}
+
+                    {val.meal == "None" ? (
+                      <h5 className="font-bold text-xl mb-2 self-center">ชื่ออาหาร: {val.pill_name}</h5>
+                    ) : (
+                      <h5 className="font-bold text-xl mb-2 self-center">ชื่อยา: {val.pill_name}</h5>
+                    )}
+
+                    {val.meal == "None" ? (
+                      <p className="font-semibold text-gray-700 self-center text-lg"></p>
+                    ) : (
+                      <p className="font-semibold text-gray-700 self-center text-lg">กิน{val.meal}</p>
+                    )}
+
+                    
                     <p className="font-semibold text-gray-700 self-center text-lg">กินตอน{val.time_clock}</p>
                     <button className='flex items-center text-gray-70 text-white font-semibold rounded-xl mt-2 px-4 py-1 self-center bg-red-500' onClick={() => {deletefunction(val.time_id)}} >Delete</button>
                   </div>

@@ -161,9 +161,10 @@ app.post("/time", async (req, res) => {
     const pill_name = req.body.pill_name;
     const meal = req.body.meal;
     const time_clock = req.body.time_clock;
+    const onetime_noti = req.body.onetime_noti;
     const email = req.body.email;
 
-    await db.promise().query("INSERT INTO times (hour, pill_name, meal, time_clock, email) VALUES (?, ?, ?, ?, ?)", [hour, pill_name, meal, time_clock ,email]);
+    await db.promise().query("INSERT INTO times (hour, pill_name, meal, time_clock, onetime_noti, email) VALUES (?, ?, ?, ?, ?, ?)", [hour, pill_name, meal, time_clock, onetime_noti ,email]);
 
     res.status(201).json({
       msg: "User registered successfully!",
@@ -189,8 +190,13 @@ app.post('/sound', async (req, res) => {
     const a = result;
     const lineToken = a[0].line_id;
     const name = a[0].name;
+    if(meal == "None"){
+      const text = 'คุณ '+ name +' ถึงเวลารับประทานอาหาร '+pill_name+' แล้วครับ';
+      notifyLine(lineToken,text)
+    }else{
     const text = 'คุณ '+ name +' ถึงเวลารับประทานยา '+pill_name+' แล้วครับ กิน '+meal+' นะครับ';
     notifyLine(lineToken,text)
+    }
   });
 });
 
@@ -204,9 +210,8 @@ app.post('/linenoti', async (req, res) => {
     const a = result;
     const lineToken = a[0].line_id;
     const name = a[0].name;
-    const finishnoti = "คุณ"+name+text;
+    const finishnoti = "คุณ "+name+text;
     notifyLine(lineToken,finishnoti)
-  
   });
 });
 

@@ -39,6 +39,7 @@ function Time() {
           pill_name: values.pill_name,
           meal: values.meal,  
           time_clock: values.time_clock,
+          onetime_noti: values.onetime_noti,
           email: parsedUser,
         });
 
@@ -90,6 +91,9 @@ const validationTime = yup.object().shape({
       .required("Meal is required"),  
   time_clock: yup
       .string()
+      .required("TIme is required"),
+  onetime_noti: yup
+      .string()
       .required("TIme is required")
 })
 
@@ -104,7 +108,7 @@ let navigate = useNavigate()
         <p className='mt-2 text-white font-sans text-2xl'>{dateString}</p>
 
         <Formik
-          initialValues={{ hour: '', pill_name: '', meal: '', time_clock: '' }}
+          initialValues={{ hour: '', pill_name: '', meal: '', time_clock: '', onetime_noti: '' }}
           onSubmit={handleTime}
           validationSchema={validationTime}
         >
@@ -125,7 +129,7 @@ let navigate = useNavigate()
                   className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white text-black font-black font-sans'
                   type='text'
                   name="pill_name"
-                  placeholder='กรอกชื่อยา'
+                  placeholder='กรอกชื่อยาและอาหาร'
                 />
         
                 <Field
@@ -136,7 +140,7 @@ let navigate = useNavigate()
                   <option value=''>กินยาก่อนอาหาร หรือ หลังอาหาร</option>
                   <option value='ก่อนอาหาร'>ก่อนอาหาร</option>
                   <option value='หลังอาหาร'>หลังอาหาร</option>
-    
+                  <option value='None'>None</option>
                 </Field>
 
 
@@ -145,10 +149,20 @@ let navigate = useNavigate()
                   as='select'
                   name="time_clock"
                 >
-                  <option value=''>เวลาในการกินยา</option>
+                  <option value=''>เวลาในการกินยาและอาหาร</option>
                   <option value='เช้า'>เช้า</option>
                   <option value='กลางวัน'>กลางวัน</option>
                   <option value='เย็น'>เย็น</option>
+                </Field>
+
+                <Field
+                  className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white text-black font-black font-sans'
+                  as='select'
+                  name="onetime_noti"
+                >
+                  <option value=''>เตือนครั้งเดียวในการกินยาและอาหาร</option>
+                  <option value='เปิด'>เปิด</option>
+                  <option value='ปิด'>ปิด</option>
                 </Field>
                 <div className='shadow-xl mt-10 w-80 h-9 rounded-full text-center bg-white text-lg text-black font-black font-sans'>
                   <button type='submit' >
