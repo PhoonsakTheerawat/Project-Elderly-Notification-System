@@ -111,12 +111,12 @@ function Home() {
             setTimeout(() => {
               deletefunction(employee.time_id)
               window.location.reload();
-            }, 15000);
+            }, 7000);
           }else{
             setTimeout(() => {
               setShowNotification(false);
               window.location.reload();
-            }, 10000);
+            }, 7000);
           }
         }}
       });
@@ -235,7 +235,7 @@ function Home() {
                     )}
 
                     
-                    <p className="font-semibold text-gray-700 self-center text-lg">กินตอน{val.time_clock}</p>
+              
                     <button className='flex items-center text-gray-70 text-white font-semibold rounded-xl mt-2 px-4 py-1 self-center bg-red-500' onClick={() => {deletefunction(val.time_id)}} >Delete</button>
                   </div>
                 </div>
